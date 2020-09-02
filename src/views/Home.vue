@@ -6,7 +6,7 @@
 </template>
 
 <script>
-  import GanYu from "@/components/map/map"
+  import GanYu from "@/components/map/Map"
 export default {
   name: "Home",
   components: {
