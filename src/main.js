@@ -4,10 +4,11 @@ import router from "./router";
 import store from "./store";
 import "@/assets/common.scss";
 Vue.config.productionTip = false;
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-Vue.use(VueAxios, axios)
-
+import http from "@/utils/HttpRequest"
+// import axios from 'axios'
+// import VueAxios from 'vue-axios'
+// Vue.use(VueAxios, axios)
+Vue.prototype.$http = http; // ajax请求方法
 new Vue({
   router,
   store,
