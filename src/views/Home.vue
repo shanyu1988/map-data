@@ -54,21 +54,38 @@
                         <div class="decorate"></div>
                     </div>
                     <ul class="person-info" v-if="person&&person.length>0">
-                        <li v-for="(item ,index) in person" :key="'person'+index">
+                        <li v-for="(item ,index) in person" :key="'person'+index" @click="personClickHandler(item,index)">
                             <div class="img-box">
                                 <img :src="imgUrl+item.PicPath">
                             </div>
                             <h4 class="person-name">{{item.Name}}</h4>
-                            <p class="person-post">
-                                {{item.JianJie}}
-                            </p>
                         </li>
                     </ul>
                 </div>
                 <div class="township-box" v-if="false"></div>
             </div>
-        </div>
 
+        </div>
+        <el-drawer append-to-body
+                   custom-class="person-drawer"
+                   :visible.sync="drawer"
+                   direction="rtl"
+                   :with-header="false">
+            <div class="person-info-box">
+                <div class="person-photo">
+                    <img :src="imgUrl+currentPersonInfo.PicPath">
+                </div>
+
+                <p class="person-name">
+                    <span>姓名</span>
+                    {{currentPersonInfo.Name}}
+                </p>
+                <div class="person-synopsis">
+                    <span>简介</span>
+                    <div v-html="currentPersonInfo.JianJie"></div>
+                </div>
+            </div>
+        </el-drawer>
     </div>
 </template>
 
@@ -83,6 +100,7 @@
         },
         data() {
             return {
+                drawer: false,
                 loading:false,
                 mapBoxHeight: null,
                 mapBoxWidth: null,
@@ -95,7 +113,8 @@
                 person:[],
                 screenType:false,
                 townInfo:{},
-                huoDong:[]
+                huoDong:[],
+                currentPersonInfo:{}
             }
         },
         provide() {
@@ -104,6 +123,11 @@
             }
         },
         methods: {
+            personClickHandler(personInfo){
+                console.log(personInfo)
+                this.currentPersonInfo = personInfo;
+                this.drawer = true;
+            },
             fullScreenHandler(){
                 let docElm = document.documentElement;
                 if(this.screenType){
@@ -116,6 +140,7 @@
                     } else if(document.msExitFullscreen) {
                         document.msExitFullscreen();
                     }
+                    this.screenType = false;
                 }else{
                     if(docElm.requestFullscreen) {
                         docElm.requestFullscreen();
@@ -132,8 +157,9 @@
                     else if(elem.msRequestFullscreen) {
                         elem.msRequestFullscreen();
                     }
+                    this.screenType = true;
                 }
-                this.screenType = !this.screenType;
+
             },
             getMapBoxHeight() {
                 return document.getElementById("mapBox").offsetHeight;
@@ -187,6 +213,8 @@
         background: linear-gradient(to right, #292E49, #536976); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
         position: relative;
         overflow: hidden;
+
+
         .tips{
             position: absolute;
             width: 200px;
@@ -332,8 +360,9 @@
             > li {
                 margin-bottom: 24px;
                 border-radius:8px;
+                cursor: pointer;
                 width: 200px;
-                height: 300px;
+                height: 280px;
                 background-image: -moz-linear-gradient(-45deg, rgb(88, 178, 220) 0%, rgb(30, 136, 168) 100%);
                 background-image: linear-gradient(-45deg, rgb(88, 178, 220) 0%, rgb(30, 136, 168) 100%);
                 background-image: -ms-linear-gradient(-45deg, rgb(88, 178, 220) 0%, rgb(30, 136, 168) 100%);
@@ -372,7 +401,7 @@
             padding-bottom: 12px;
             background-image: url("~@/assets/img/decorate_02.png");
             background-repeat: no-repeat;
-            background-position: bottom;
+            background-position: bottom left;
 
             .text {
                 height: 54px;
@@ -396,4 +425,61 @@
             }
         }
     }
+</style>
+<style lang="scss">
+    .person-drawer{
+        //background-color: #292E49;
+        .el-drawer__body{
+            overflow-y: auto;
+        }/*
+        .el-drawer__body::-webkit-scrollbar {!*滚动条整体样式*!
+
+            width: 10px;     !*高宽分别对应横竖滚动条的尺寸*!
+
+            height: 1px;
+
+        }
+        .el-drawer__body::-webkit-scrollbar-thumb {
+            !*滚动条里面小方块*!
+            border-radius: 10px;
+            box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
+            background   : #535353;
+        }
+        .el-drawer__body::-webkit-scrollbar-track {
+            !*滚动条里面轨道*!
+            box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            background   : #ededed;
+        }*/
+        .person-info-box{
+            padding: 24px;
+            .person-photo{
+                width: 200px;
+                height: 280px;
+                border-radius: 12px;
+                overflow: hidden;
+                >img{
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            .person-name,.person-synopsis{
+                margin-top: 24px;
+                font-size:32px;
+                >span{
+                    margin-bottom: 8px;
+                    display: block;
+                    font-size: 18px;
+                    color: #536976;
+                }
+
+            }
+            .person-synopsis{
+                >div{
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+
 </style>
