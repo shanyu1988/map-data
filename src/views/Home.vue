@@ -1,71 +1,73 @@
 <template>
     <div class="main">
-        <div class="full-screen">全屏</div>
-<!--         <h1 class="title"></h1>-->
-<!--         <div class="map-box" ref="mapBox" id="mapBox">-->
-<!--           <gan-yu @mapClick="mapClickHandler"></gan-yu>-->
-<!--         </div>-->
-<!--        <div class="content-box">-->
-<!--            <div class="rolling-box">-->
-<!--                <div class="county-box">-->
-<!--                     <h1 class="box-title">-->
-<!--                       抗日山共产党员服务队-->
-<!--                       <template v-if="currentTown.name">-->
-<!--                         {{currentTown.name}}服务所-->
-<!--                       </template>-->
-<!--                     </h1>-->
-<!--                     <div class="content-title">-->
-<!--                       <div class="text" style="width: 260px">简介</div>-->
-<!--                       <div class="decorate"></div>-->
-<!--                     </div>-->
-<!--                     <p class="content-text">-->
-<!--                       国网江苏省电力有限公司连云港市赣榆区供电分公司于1989年12月28日成立。法定代表人王琛，公司经营范围包括：电力供应、管理；电动汽车充换电服务等。国网江苏省电力有限公司连云港市赣榆区供电分公司于1989年12月28日成立。法定代表人王琛，公司经营范围包括：电力供应、管理；电动汽车充换电服务等。国网江苏省电力有限公司连云港市赣榆区供电分公司于1989年12月28日成立。法定代表人王琛，公司经营范围包括：电力供应、管理；电动汽车充换电服务等。国网江苏省电力有限公司连云港市赣榆区供电分公司于1989年12月28日成立。法定代表人王琛，公司经营范围包括：电力供应、管理；电动汽车充换电服务等。-->
-<!--                     </p>-->
-<!--                     <div class="content-title">-->
-<!--                       <div class="text" style="width: 260px">服务队合影</div>-->
-<!--                       <div class="decorate"></div>-->
-<!--                     </div>-->
-<!--                     <div class="group-photo">-->
-<!--                       <div class="img-box">-->
-<!--                         <img src="@/assets/img/img_01.jpg">-->
-<!--                       </div>-->
-<!--                     </div>-->
-<!--                     <div class="content-title">-->
-<!--                       <div class="text" style=" width: 260px">服务活动展示</div>-->
-<!--                       <div class="decorate"></div>-->
-<!--                     </div>-->
-<!--                     <ul class="activity-photo">-->
-<!--                       <li style="margin-right: 40px">-->
-<!--                         <div class="img-box">-->
-<!--                           <img src="@/assets/img/img_01.jpg">-->
-<!--                         </div>-->
-<!--                       </li>-->
-<!--                       <li>-->
-<!--                         <div class="img-box">-->
-<!--                           <img src="@/assets/img/img_02.jpg">-->
-<!--                         </div>-->
-<!--                       </li>-->
-<!--                     </ul>-->
-<!--                    <div class="content-title">-->
-<!--                        <div class="text" style="width: 360px">抗日山共产党员服务队</div>-->
-<!--&lt;!&ndash;                        <div class="text" style="width: 360px">标题</div>&ndash;&gt;-->
-<!--                        <div class="decorate"></div>-->
-<!--                    </div>-->
-<!--                    <ul class="person-info">-->
-<!--                        <li v-for="item in 9" :key="'person'+item">-->
-<!--                            <div class="img-box">-->
-<!--                                <img src="@/assets/img/img_03.jpg">-->
-<!--                            </div>-->
-<!--                            <h4 class="person-name">李先生</h4>-->
-<!--                            <p class="person-post">-->
-<!--                                岗位-->
-<!--                            </p>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-<!--                </div>-->
-<!--                <div class="township-box" v-if="false"></div>-->
-<!--            </div>-->
-<!--        </div>-->
+        <div class="full-screen" @click="fullScreenHandler">{{screenType?"退出全屏":"全屏"}}</div>
+         <h1 class="title"></h1>
+         <div class="map-box" ref="mapBox" id="mapBox">
+           <gan-yu @mapClick="mapClickHandler"></gan-yu>
+         </div>
+        <div class="content-box"
+             element-loading-background="rgba(0, 0, 0, 0.6)"
+             v-loading="loading">
+            <div class="rolling-box">
+                <div class="county-box">
+                     <h1 class="box-title">
+                       抗日山共产党员服务队
+                       <template v-if="currentTown.name">
+                         {{currentTown.name}}服务所
+                       </template>
+                     </h1>
+                     <div class="content-title">
+                       <div class="text" style="width: 260px">简介</div>
+                       <div class="decorate"></div>
+                     </div>
+                     <p class="content-text">
+                       国网江苏省电力有限公司连云港市赣榆区供电分公司于1989年12月28日成立。法定代表人王琛，公司经营范围包括：电力供应、管理；电动汽车充换电服务等。国网江苏省电力有限公司连云港市赣榆区供电分公司于1989年12月28日成立。法定代表人王琛，公司经营范围包括：电力供应、管理；电动汽车充换电服务等。国网江苏省电力有限公司连云港市赣榆区供电分公司于1989年12月28日成立。法定代表人王琛，公司经营范围包括：电力供应、管理；电动汽车充换电服务等。国网江苏省电力有限公司连云港市赣榆区供电分公司于1989年12月28日成立。法定代表人王琛，公司经营范围包括：电力供应、管理；电动汽车充换电服务等。
+                     </p>
+                     <div class="content-title">
+                       <div class="text" style="width: 260px">服务队合影</div>
+                       <div class="decorate"></div>
+                     </div>
+                     <div class="group-photo">
+                       <div class="img-box">
+                         <img src="@/assets/img/img_01.jpg">
+                       </div>
+                     </div>
+                     <div class="content-title">
+                       <div class="text" style=" width: 260px">服务活动展示</div>
+                       <div class="decorate"></div>
+                     </div>
+                     <ul class="activity-photo">
+                       <li style="margin-right: 40px">
+                         <div class="img-box">
+                           <img src="@/assets/img/img_01.jpg">
+                         </div>
+                       </li>
+                       <li>
+                         <div class="img-box">
+                           <img src="@/assets/img/img_02.jpg">
+                         </div>
+                       </li>
+                     </ul>
+                    <div class="content-title" >
+                        <div class="text" style="width: 360px">抗日山共产党员服务队</div>
+<!--                        <div class="text" style="width: 360px">标题</div>-->
+                        <div class="decorate"></div>
+                    </div>
+                    <ul class="person-info">
+                        <li v-for="item in person" :key="item.F_CreatorUserId">
+                            <div class="img-box">
+                                <img :src="imgUrl+item.File_Name">
+                            </div>
+                            <h4 class="person-name">{{item.Name}}</h4>
+                            <p class="person-post">
+                                岗位
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="township-box" v-if="false"></div>
+            </div>
+        </div>
 
     </div>
 </template>
@@ -81,12 +83,16 @@
         },
         data() {
             return {
+                loading:false,
                 mapBoxHeight: null,
                 mapBoxWidth: null,
                 currentTown: {
                     name: '',
                     id: ""
-                }
+                },
+                imgUrl:"http://39.104.61.91:8020/Upload/",
+                person:[],
+                screenType:false
             }
         },
         provide() {
@@ -95,6 +101,37 @@
             }
         },
         methods: {
+            fullScreenHandler(){
+                let docElm = document.documentElement;
+                if(this.screenType){
+                    if(document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if(document.mozCancelFullScreen) {
+                        document.mozCancelFullScreen();
+                    } else if(document.webkitCancelFullScreen) {
+                        document.webkitCancelFullScreen();
+                    } else if(document.msExitFullscreen) {
+                        document.msExitFullscreen();
+                    }
+                }else{
+                    if(docElm.requestFullscreen) {
+                        docElm.requestFullscreen();
+                    }
+                    //FireFox
+                    else if(docElm.mozRequestFullScreen) {
+                        docElm.mozRequestFullScreen();
+                    }
+                    //Chrome等
+                    else if(docElm.webkitRequestFullScreen) {
+                        docElm.webkitRequestFullScreen();
+                    }
+                    //IE11
+                    else if(elem.msRequestFullscreen) {
+                        elem.msRequestFullscreen();
+                    }
+                }
+                this.screenType = !this.screenType;
+            },
             getMapBoxHeight() {
                 return document.getElementById("mapBox").offsetHeight;
             },
@@ -102,7 +139,22 @@
                 return document.getElementById("mapBox").offsetWidth;
             },
             mapClickHandler(town) {
+                this.loading = true;
                 this.currentTown = town;
+                this.reqTownInfo()
+            },
+            reqTownInfo(){
+                this.$http({
+                    method:"post",
+                    url:this.$http.adornUrl("/api/RenYuanList"),
+                    data:{
+                        quyu:"青口镇"
+                    }
+                }).then(({data})=>{
+                    console.log(data)
+                    this.person = data;
+                    this.loading = false;
+                })
             }
         },
         mounted() {

@@ -5,7 +5,7 @@ import axios from 'axios'
 
 
 //应用 HTTP 请求地址处理
-const httpRequestUrl = ' http://39.104.61.91:8020/';
+const httpRequestUrl = 'http://39.104.61.91:8020/';
 
 const http = axios.create({
     timeout: 1000 * 30,//超时设置
@@ -18,7 +18,6 @@ const http = axios.create({
  * 请求拦截
  */
 http.interceptors.request.use(config => {
-    config.headers['token'] = Vue.cookie.get('token') // 请求头带上token
     return config
 }, error => {
     return Promise.reject(error)
@@ -54,7 +53,7 @@ http.adornData = (data = {}, openDefultdata = false, contentType = 'json') => {
 
 
 //自定义地址装饰方法  参考
-http.adornAppRequestUrl = (actionName) => {
+http.adornUrl = (actionName) => {
     return httpRequestUrl  + actionName
 };
 
