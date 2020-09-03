@@ -78,7 +78,7 @@
                     hover: "rgb(142,173,203)"
                 },
                 fontSize:"18px",
-                currentTown:"",
+                currentTown:"MapQingKou",
                 mapHeight:846,
                 mapWidth:832
             }

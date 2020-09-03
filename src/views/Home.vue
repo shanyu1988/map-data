@@ -1,5 +1,6 @@
 <template>
     <div class="main">
+        <div class="tips">点击地图<br>查看更多信息</div>
         <div class="full-screen" @click="fullScreenHandler">{{screenType?"退出全屏":"全屏"}}</div>
          <h1 class="title"></h1>
          <div class="map-box" ref="mapBox" id="mapBox">
@@ -8,59 +9,58 @@
         <div class="content-box"
              element-loading-background="rgba(0, 0, 0, 0.6)"
              v-loading="loading">
-            <div class="rolling-box">
+            <div class="rolling-box" id="rollingBox">
                 <div class="county-box">
-                     <h1 class="box-title">
+                    <h1 class="box-title">
+                        {{townInfo.Name?townInfo.Name:"暂无标题"}}
+                    </h1>
+                     <!--<h1 class="box-title">
                        抗日山共产党员服务队
                        <template v-if="currentTown.name">
                          {{currentTown.name}}服务所
                        </template>
-                     </h1>
+                     </h1>-->
                      <div class="content-title">
                        <div class="text" style="width: 260px">简介</div>
                        <div class="decorate"></div>
                      </div>
-                     <p class="content-text">
-                       国网江苏省电力有限公司连云港市赣榆区供电分公司于1989年12月28日成立。法定代表人王琛，公司经营范围包括：电力供应、管理；电动汽车充换电服务等。国网江苏省电力有限公司连云港市赣榆区供电分公司于1989年12月28日成立。法定代表人王琛，公司经营范围包括：电力供应、管理；电动汽车充换电服务等。国网江苏省电力有限公司连云港市赣榆区供电分公司于1989年12月28日成立。法定代表人王琛，公司经营范围包括：电力供应、管理；电动汽车充换电服务等。国网江苏省电力有限公司连云港市赣榆区供电分公司于1989年12月28日成立。法定代表人王琛，公司经营范围包括：电力供应、管理；电动汽车充换电服务等。
+                     <p class="content-text" v-html="townInfo.JianJie">
                      </p>
-                     <div class="content-title">
+                     <div class="content-title" v-if="townInfo.PicPath">
                        <div class="text" style="width: 260px">服务队合影</div>
                        <div class="decorate"></div>
                      </div>
-                     <div class="group-photo">
+                     <div class="group-photo" v-if="townInfo.PicPath">
                        <div class="img-box">
-                         <img src="@/assets/img/img_01.jpg">
+                         <img :src="imgUrl+townInfo.PicPath">
                        </div>
                      </div>
-                     <div class="content-title">
+                     <div class="content-title" v-if="huoDong&&huoDong.length>0">
                        <div class="text" style=" width: 260px">服务活动展示</div>
                        <div class="decorate"></div>
                      </div>
-                     <ul class="activity-photo">
-                       <li style="margin-right: 40px">
+                     <ul class="activity-photo" v-if="huoDong&&huoDong.length>0">
+                       <li v-for="(item,index) in huoDong"
+                           :key="'huoDong'+index"
+                           :style="{marginRight:index%2===0?'16px':'0'}">
                          <div class="img-box">
-                           <img src="@/assets/img/img_01.jpg">
-                         </div>
-                       </li>
-                       <li>
-                         <div class="img-box">
-                           <img src="@/assets/img/img_02.jpg">
+                           <img :src="imgUrl2+item.PicPath">
                          </div>
                        </li>
                      </ul>
-                    <div class="content-title" >
+                    <div class="content-title" v-if="person&&person.length>0">
                         <div class="text" style="width: 360px">抗日山共产党员服务队</div>
 <!--                        <div class="text" style="width: 360px">标题</div>-->
                         <div class="decorate"></div>
                     </div>
-                    <ul class="person-info">
-                        <li v-for="item in person" :key="item.F_CreatorUserId">
+                    <ul class="person-info" v-if="person&&person.length>0">
+                        <li v-for="(item ,index) in person" :key="'person'+index">
                             <div class="img-box">
-                                <img :src="imgUrl+item.File_Name">
+                                <img :src="imgUrl+item.PicPath">
                             </div>
                             <h4 class="person-name">{{item.Name}}</h4>
                             <p class="person-post">
-                                岗位
+                                {{item.JianJie}}
                             </p>
                         </li>
                     </ul>
@@ -74,7 +74,7 @@
 
 <script>
     import GanYu from "@/components/map/GanYu"
-
+    import config from "@/sys.config.js"
     export default {
         name: "Home",
         components: {
@@ -87,12 +87,15 @@
                 mapBoxHeight: null,
                 mapBoxWidth: null,
                 currentTown: {
-                    name: '',
-                    id: ""
+                    name: '青口',
+                    id: "MapQingKou"
                 },
-                imgUrl:"http://39.104.61.91:8020/Upload/",
+                imgUrl:config.requestUrl+"Upload/",
+                imgUrl2:config.requestUrl,
                 person:[],
-                screenType:false
+                screenType:false,
+                townInfo:{},
+                huoDong:[]
             }
         },
         provide() {
@@ -141,25 +144,31 @@
             mapClickHandler(town) {
                 this.loading = true;
                 this.currentTown = town;
-                this.reqTownInfo()
+                document.getElementById('rollingBox').scrollTop = 0;
+                this.reqTownInfo(town.name)
             },
             reqTownInfo(){
                 this.$http({
                     method:"post",
                     url:this.$http.adornUrl("/api/RenYuanList"),
                     data:{
-                        quyu:"青口镇"
+                        quyu:this.currentTown.name+"镇"
                     }
                 }).then(({data})=>{
                     console.log(data)
-                    this.person = data;
+                    this.person = data.Rens;
+                    this.townInfo = data.zhen;
+                    this.huoDong = data.HuoDongPicS;
                     this.loading = false;
+                }).catch(()=>{
+                    this.$message.error("请求数据发生错误，请重新尝试！");
                 })
             }
         },
         mounted() {
             this.mapBoxHeight = this.getMapBoxHeight();
             this.mapBoxWidth = this.getMapBoxWidth();
+            this.reqTownInfo();
             let _this = this;
             window.onresize = function () {
                 _this.mapBoxHeight = _this.getMapBoxHeight();
@@ -178,7 +187,21 @@
         background: linear-gradient(to right, #292E49, #536976); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
         position: relative;
         overflow: hidden;
-
+        .tips{
+            position: absolute;
+            width: 200px;
+            height: 24px;
+            font-size:14px;
+            line-height:21px;
+            color: #dbdbdb;
+            padding-top: 28px;
+            bottom: 140px;
+            left: 36px;
+            background-image: url("~@/assets/img/click.png");
+            background-repeat: no-repeat;
+            background-size: 24px 24px;
+            background-position: center top;
+        }
         .county-box {
             width: calc(100% - 20px);
         }
@@ -273,13 +296,13 @@
         .activity-photo {
             margin: 24px auto 24px auto;
             width: 640px;
-            height: 180px;
-
+            overflow: hidden;
             > li {
+                margin-bottom: 16px;
                 border-radius: 12px;
                 background-image: linear-gradient(-45deg, rgb(88, 178, 220) 0%, rgb(30, 136, 168) 100%);
                 height: 180px;
-                width: 300px;
+                width: 312px;
                 float: left;
                 padding: 5px;
                 overflow: hidden;
@@ -287,10 +310,9 @@
                 .img-box {
                     background-color: #fcfaf2;
                     height: 170px;
-                    width: 290px;
+                    width: 302px;
                     border-radius: 8px;
                     overflow: hidden;
-
                     > img {
                         width: 100%;
                         height: 100%;
@@ -322,10 +344,16 @@
                     height:225px;
                     overflow: hidden;
                     border-radius: 8px;
+                    >img{
+                        width: 100%;
+                        height: 100%;
+                    }
                 }
                 .person-post {
                     color:#FFF;
                     font-size: 16px;
+                    overflow: hidden;
+                    height: 20px;
                 }
                 .person-name {
                     line-height: 1.5;

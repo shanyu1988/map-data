@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import axios from 'axios'
-
+import config from "@/sys.config.js"
 
 
 
 //应用 HTTP 请求地址处理
-const httpRequestUrl = 'http://39.104.61.91:8020/';
+const httpRequestUrl = config.requestUrl;
 
 const http = axios.create({
     timeout: 1000 * 30,//超时设置
