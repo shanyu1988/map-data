@@ -3,8 +3,22 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<!--    <link rel="icon" href="<%= BASE_URL %>favicon.ico">-->
+    <meta  name="viewport" content="width=1920,height=device-height,user-scalable=no,initial-scale=0.1">
+    <script>
+      window.REQUEST_URL = "http://39.104.61.91:8020/";
+    </script>
+    <script>
+      function setInitialScale(){
+        var screenHeight = window.screen.availHeight,
+                screenWidth = window.screen.availWidth;
+        var widthProp = screenWidth/1920;
+
+        var metaViewport =document.getElementsByTagName("meta")[2];
+        metaViewport.setAttribute("content","width=1920,height=device-height,user-scalable=no,initial-scale="+widthProp)
+      }
+      setInitialScale()
+    </script>
+    <script ref="<%= BASE_URL %>sys.config.js"></script>
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>

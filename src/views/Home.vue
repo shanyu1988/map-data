@@ -199,6 +199,7 @@
             window.onresize = function () {
                 _this.mapBoxHeight = _this.getMapBoxHeight();
                 _this.mapBoxWidth = _this.getMapBoxWidth();
+                setInitialScale()
             }
         }
     };
@@ -267,7 +268,6 @@
         }
 
         .content-box {
-            min-width: 720px;
             position: absolute;
             right: 5%;
             width: 37.5%;
@@ -306,7 +306,6 @@
             width: 480px;
             height: 270px;
             padding: 5px 0 0 5px;
-
             .img-box {
                 border-radius: 8px;
                 overflow: hidden;
@@ -425,12 +424,14 @@
             }
         }
     }
+    ::v-deep :focus{outline:0;}
 </style>
+
 <style lang="scss">
     .person-drawer{
-        //background-color: #292E49;
         .el-drawer__body{
             overflow-y: auto;
+            background: linear-gradient(to top, #292E49, #536976);
         }/*
         .el-drawer__body::-webkit-scrollbar {!*滚动条整体样式*!
 
@@ -464,13 +465,14 @@
                 }
             }
             .person-name,.person-synopsis{
+                color: #FFF;
                 margin-top: 24px;
                 font-size:32px;
                 >span{
                     margin-bottom: 8px;
                     display: block;
                     font-size: 18px;
-                    color: #536976;
+                    color: #dbdbdb;
                 }
 
             }
