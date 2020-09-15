@@ -1,7 +1,7 @@
 <template>
     <div class="main">
         <div class="tips">点击地图<br>查看更多信息</div>
-        <div class="full-screen" @click="fullScreenHandler">{{screenType?"退出全屏":"全屏"}}</div>
+        <div v-if="!isMobile" class="full-screen" @click="fullScreenHandler">{{screenType?"退出全屏":"全屏"}}</div>
          <h1 class="title"></h1>
          <div class="map-box" ref="mapBox" id="mapBox">
            <gan-yu @mapClick="mapClickHandler"></gan-yu>
@@ -114,7 +114,8 @@
                 screenType:false,
                 townInfo:{},
                 huoDong:[],
-                currentPersonInfo:{}
+                currentPersonInfo:{},
+                isMobile:false
             }
         },
         provide() {
@@ -123,6 +124,14 @@
             }
         },
         methods: {
+            whetherIsMobile(){
+                var u = navigator.userAgent;
+                var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+                var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                if(isAndroid || isiOS){
+                    return true
+                }
+            },
             personClickHandler(personInfo){
                 console.log(personInfo)
                 this.currentPersonInfo = personInfo;
@@ -192,6 +201,7 @@
             }
         },
         mounted() {
+            this.isMobile = this.whetherIsMobile()
             this.mapBoxHeight = this.getMapBoxHeight();
             this.mapBoxWidth = this.getMapBoxWidth();
             this.reqTownInfo();
