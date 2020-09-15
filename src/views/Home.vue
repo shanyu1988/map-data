@@ -1,5 +1,6 @@
 <template>
     <div class="main">
+
         <div class="tips">点击地图<br>查看更多信息</div>
         <div v-if="!isMobile" class="full-screen" @click="fullScreenHandler">{{screenType?"退出全屏":"全屏"}}</div>
          <h1 class="title"></h1>
@@ -31,8 +32,14 @@
                        <div class="decorate"></div>
                      </div>
                      <div class="group-photo" v-if="townInfo.PicPath">
-                       <div class="img-box">
-                         <img :src="imgUrl+townInfo.PicPath">
+                       <div class="img-box" >
+<!--                           @click="imgClickHandler(imgUrl+townInfo.PicPath,[])"-->
+                           <el-image
+                                   style="width: 100%; height:100%"
+                                   :src="imgUrl+townInfo.PicPath"
+                                   :preview-src-list="groupUrlList">
+                           </el-image>
+<!--                         <img :src="imgUrl+townInfo.PicPath">-->
                        </div>
                      </div>
                      <div class="content-title" v-if="huoDong&&huoDong.length>0">
@@ -43,8 +50,14 @@
                        <li v-for="(item,index) in huoDong"
                            :key="'huoDong'+index"
                            :style="{marginRight:index%2===0?'16px':'0'}">
+<!--                           @click="imgClickHandler(imgUrl2+item.PicPat,huoDong)"-->
                          <div class="img-box">
-                           <img :src="imgUrl2+item.PicPath">
+<!--                           <img :src="imgUrl2+item.PicPath">-->
+                             <el-image
+                                     style="width: 100%; height:100%"
+                                     :src="imgUrl2+item.PicPath"
+                                     :preview-src-list="huoDongUrlList">
+                             </el-image>
                          </div>
                        </li>
                      </ul>
@@ -86,6 +99,12 @@
                 </div>
             </div>
         </el-drawer>
+        <el-dialog :visible.sync="showImg"
+                   width="70%"
+                   custom-class="img-dialog"
+                   :show-close="false">
+
+        </el-dialog>
     </div>
 </template>
 
@@ -100,6 +119,7 @@
         },
         data() {
             return {
+                showImg:false,
                 drawer: false,
                 loading:false,
                 mapBoxHeight: null,
@@ -115,7 +135,10 @@
                 townInfo:{},
                 huoDong:[],
                 currentPersonInfo:{},
-                isMobile:false
+                isMobile:false,
+                currentImgUrl:"",
+                groupUrlList:[],
+                huoDongUrlList:[]
             }
         },
         provide() {
@@ -124,6 +147,14 @@
             }
         },
         methods: {
+            imgClickHandler(imgUrl,urlList){
+                this.showImg=true;
+                console.log('----',imgUrl)
+                console.log('----',urlList)
+                this.currentImgUrl = imgUrl;
+
+
+            },
             whetherIsMobile(){
                 var u = navigator.userAgent;
                 var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
@@ -195,6 +226,20 @@
                     this.townInfo = data.zhen;
                     this.huoDong = data.HuoDongPicS;
                     this.loading = false;
+                    if(this.townInfo.PicPath){
+                        this.groupUrlList = [
+                            this.imgUrl+this.townInfo.PicPath
+                        ]
+                    }else{
+                        this.groupUrlList = []
+                    }
+                    this.huoDongUrlList=[];
+                    if(this.huoDong.length>0){
+                        this.huoDong.forEach((item,index)=>{
+                            this.huoDongUrlList.push(this.imgUrl2+item.PicPath);
+                        })
+                    }
+
                 }).catch(()=>{
                     this.$message.error("请求数据发生错误，请重新尝试！");
                 })
@@ -225,6 +270,31 @@
         position: relative;
         overflow: hidden;
 
+        ::v-deep.el-dialog.img-dialog{
+            height: 70%;
+            .el-dialog__header{
+                display: none;
+            }
+            .el-dialog__body{
+                padding: 0;
+            }
+        }
+        ::v-deep.el-image-viewer__wrapper {
+            .el-image-viewer__btn.el-image-viewer__close{
+                width: 80px;
+                height: 80px;
+                font-size: 80px;
+                .el-icon-circle-close{
+                    color: #FFF;
+                }
+            }
+            .el-image-viewer__prev,.el-image-viewer__next{
+                width: 80px;
+                height: 80px;
+                font-size: 60px;
+            }
+
+        }
 
         .tips{
             position: absolute;
