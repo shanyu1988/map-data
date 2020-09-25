@@ -1,5 +1,5 @@
 <template>
-    <div class="main" @click="bodyClickHandler">
+    <div class="main">
 
         <div class="tips">点击地图<br>查看更多信息</div>
         <div v-if="!isMobile" class="full-screen" @click="fullScreenHandler">{{screenType?"退出全屏":"全屏"}}</div>
@@ -13,10 +13,7 @@
             <div class="rolling-box" id="rollingBox">
                 <div class="county-box">
                     <h1 class="box-title">
-                        <p>
-                            {{townInfo.Name?townInfo.Name:"暂无标题"}}
-                        </p>
-
+                        {{townInfo.Name?townInfo.Name:"暂无标题"}}
                     </h1>
                      <!--<h1 class="box-title">
                        抗日山共产党员服务队
@@ -24,22 +21,16 @@
                          {{currentTown.name}}服务所
                        </template>
                      </h1>-->
-<!--                     <div class="content-title">-->
-<!--                       <div class="text" style="width: 260px">简介</div>-->
-<!--                       <div class="decorate"></div>-->
-<!--                     </div>-->
-                    <div class="item-title">
-                        简介
-                    </div>
+                     <div class="content-title">
+                       <div class="text" style="width: 260px">简介</div>
+                       <div class="decorate"></div>
+                     </div>
                      <p class="content-text" v-html="townInfo.JianJie">
                      </p>
-<!--                     <div class="content-title" v-if="townInfo.PicPath">-->
-<!--                       <div class="text" style="width: 260px">服务队合影</div>-->
-<!--                       <div class="decorate"></div>-->
-<!--                     </div>-->
-                    <div class="item-title">
-                        服务队合影
-                    </div>
+                     <div class="content-title" v-if="townInfo.PicPath">
+                       <div class="text" style="width: 260px">服务队合影</div>
+                       <div class="decorate"></div>
+                     </div>
                      <div class="group-photo" v-if="townInfo.PicPath">
                        <div class="img-box" >
 <!--                           @click="imgClickHandler(imgUrl+townInfo.PicPath,[])"-->
@@ -51,16 +42,14 @@
 <!--                         <img :src="imgUrl+townInfo.PicPath">-->
                        </div>
                      </div>
-<!--                     <div class="content-title" v-if="huoDong&&huoDong.length>0">-->
-<!--                       <div class="text" style=" width: 260px">服务活动展示</div>-->
-<!--                       <div class="decorate"></div>-->
-<!--                     </div>-->
-                    <div class="item-title" v-if="huoDong&&huoDong.length>0">
-                        特色服务展示
-                    </div>
+                     <div class="content-title" v-if="huoDong&&huoDong.length>0">
+                       <div class="text" style=" width: 260px">服务活动展示</div>
+                       <div class="decorate"></div>
+                     </div>
                      <ul class="activity-photo" v-if="huoDong&&huoDong.length>0">
                        <li v-for="(item,index) in huoDong"
-                           :key="'huoDong'+index">
+                           :key="'huoDong'+index"
+                           :style="{marginRight:index%2===0?'16px':'0'}">
 <!--                           @click="imgClickHandler(imgUrl2+item.PicPat,huoDong)"-->
                          <div class="img-box">
 <!--                           <img :src="imgUrl2+item.PicPath">-->
@@ -72,13 +61,10 @@
                          </div>
                        </li>
                      </ul>
-<!--                    <div class="content-title" v-if="person&&person.length>0">-->
-<!--                        <div class="text" style="width: 360px">抗日山共产党员服务队</div>-->
-<!--&lt;!&ndash;                        <div class="text" style="width: 360px">标题</div>&ndash;&gt;-->
-<!--                        <div class="decorate"></div>-->
-<!--                    </div>-->
-                    <div class="item-title" v-if="person&&person.length>0">
-                        服务队队员信息
+                    <div class="content-title" v-if="person&&person.length>0">
+                        <div class="text" style="width: 360px">抗日山共产党员服务队</div>
+<!--                        <div class="text" style="width: 360px">标题</div>-->
+                        <div class="decorate"></div>
                     </div>
                     <ul class="person-info" v-if="person&&person.length>0">
                         <li v-for="(item ,index) in person" :key="'person'+index" @click="personClickHandler(item,index)">
@@ -91,7 +77,6 @@
                 </div>
                 <div class="township-box" v-if="false"></div>
             </div>
-
         </div>
         <el-drawer append-to-body
                    custom-class="person-drawer"
@@ -123,7 +108,7 @@
 </template>
 
 <script>
-    import GanYu from "@/components/map/GanYu"
+    import GanYu from "@/components/map/GanYu@v1"
     import config from "@/sys.config.js"
     export default {
         name: "Home",
@@ -161,9 +146,6 @@
             }
         },
         methods: {
-            bodyClickHandler(){
-
-            },
             imgClickHandler(imgUrl,urlList){
                 this.showImg=true;
                 console.log('----',imgUrl)
@@ -281,11 +263,9 @@
         width: 100%;
         height: 100%;
         //background-color: #1c1c1c;
-        /*background: #536976; !* fallback for old browsers *!*/
-        /*background: -webkit-linear-gradient(to right, #292E49, #536976); !* Chrome 10-25, Safari 5.1-6 *!*/
-        /*background: linear-gradient(to right, #292E49, #536976); !* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ *!*/
-        background-image: url("~@/assets/img/bg.jpg");
-        background-size: 100% 100%;
+        background: #536976; /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #292E49, #536976); /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #292E49, #536976); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
         position: relative;
         overflow: hidden;
 
@@ -320,26 +300,17 @@
             height: 24px;
             font-size:14px;
             line-height:21px;
-            color: #bd343b;
+            color: #dbdbdb;
             padding-top: 28px;
-            bottom: 120px;
+            bottom: 140px;
             left: 36px;
-            background-image: url("~@/assets/img/click_red.png");
+            background-image: url("~@/assets/img/click.png");
             background-repeat: no-repeat;
             background-size: 24px 24px;
             background-position: center top;
         }
         .county-box {
             width: calc(100% - 20px);
-            .item-title{
-                width: 680px;
-                height: 58px;
-                margin: 0 auto;
-                line-height: 56px;
-                font-size: 28px;
-                color: #FFF;
-                background-image: url("~@/assets/img/title_bg.png");
-            }
         }
         .full-screen{
             cursor:pointer;
@@ -347,9 +318,8 @@
             bottom: 36px;
             width: 200px;
             font-size: 18px;
-            color: #cf3217;
-            border: 1px solid #cf3217;
-            background-color: rgba(255,255,255,.6);
+            color: #FFF;
+            border: 1px solid #FFF;
             height: 40px;
             line-height: 40px;
             border-radius: 4px;
@@ -357,20 +327,19 @@
         }
         .title {
             position: absolute;
-            top: 3%;
+            top: 7.03%;
             left: 3.75%;
-            width: 36.87%;
-            height: 10.46%;
+            width: 25%;
+            height: 7.59%;
             background-repeat: no-repeat;
             background-position: center;
-            background-image: url("~@/assets/img/heder_title_bg.png");
-            //src/assets/img/heder_title_bg.png
+            background-image: url("~@/assets/img/title.png");
             background-size: 100% 100%;
         }
 
         .map-box {
             position: absolute;
-            top: 16%;
+            top: 11.11%;
             left: 7%;
             width: 43.23%;
             height: 78.33%;
@@ -393,77 +362,60 @@
         }
 
         .box-title {
-           height: 54px;
-            margin-bottom: 30px;
-            background-image: url("~@/assets/img/head_bg.png");
-            background-repeat: no-repeat;
-            background-size: 100%;
-            background-position: center bottom;
-            display: flex;
-            justify-content: center;
-            >p{
-                padding: 0 20px;
-                height: 40px;
-                line-height: 40px;
-                background-color: #FFF;
-                font-size: 32px;
-                text-align: center;
-                color:#cf3217;
-            }
+            font-size: 38px;
+            text-align: center;
+            color: rgb(255, 255, 255);
+            margin-bottom: 40px;
         }
 
         .content-text {
             width: 100%;
             font-size: 18px;
-            color: #e81f18;
+            color: #fcfaf2;
             line-height: 1.8;
             text-align: justify;
-            padding:20px 24px;
+            padding: 24px;
         }
 
         .group-photo {
-            margin: 20px auto 20px auto;
+            margin: 24px auto 24px auto;
             border-radius: 12px;
-            background-color: #cf3317;
-            width: 654px;
-            height: 420px;
+            background-image: linear-gradient(-45deg, rgb(88, 178, 220) 0%, rgb(30, 136, 168) 100%);
+            width: 480px;
+            height: 270px;
             padding: 5px 0 0 5px;
             .img-box {
                 border-radius: 8px;
                 overflow: hidden;
-                border:5px solid #FFF;
                 float: left;
-                width: 644px;
-                height: 410px;
-            }
-            ::v-deep.el-image{
-                border-radius: 2px;
-                overflow: hidden;
+                width: 470px;
+                height: 260px;
+
+                > img {
+                    width: 100%;
+                    height: 100%;
+                }
             }
         }
 
         .activity-photo {
-            margin: 20px auto 20px auto;
-            width: 654px;
+            margin: 24px auto 24px auto;
+            width: 640px;
             overflow: hidden;
-            display: flex;
-            justify-content: space-between;
-            align-content: stretch;
-            flex-wrap: wrap;
             > li {
                 margin-bottom: 16px;
                 border-radius: 12px;
-                background-color: #cf3317;
-                height: 220px;
-                width: 318px;
+                background-image: linear-gradient(-45deg, rgb(88, 178, 220) 0%, rgb(30, 136, 168) 100%);
+                height: 180px;
+                width: 312px;
                 float: left;
                 padding: 5px;
                 overflow: hidden;
 
                 .img-box {
                     background-color: #fcfaf2;
-                    height: 210px;
-                    width: 308px;
+                    height: 170px;
+                    width: 302px;
                     border-radius: 8px;
                     overflow: hidden;
                     > img {
@@ -475,9 +427,8 @@
         }
 
         .person-info {
-            width: 654px;
-            margin:0 auto;
-            margin-top: 20px;
+            width: 700;
+            margin: 0 auto;
             overflow: hidden;
             display: flex;
             justify-content:space-between ;
@@ -489,7 +440,9 @@
                 cursor: pointer;
                 width: 200px;
                 height: 280px;
-                background-color: #cf3317;
+                background-image: -moz-linear-gradient(-45deg, rgb(88, 178, 220) 0%, rgb(30, 136, 168) 100%);
+                background-image: linear-gradient(-45deg, rgb(88, 178, 220) 0%, rgb(30, 136, 168) 100%);
+                background-image: -ms-linear-gradient(-45deg, rgb(88, 178, 220) 0%, rgb(30, 136, 168) 100%);
                 padding: 6px 6px 0 6px;
                 .img-box{
                     width: 188px;
@@ -556,7 +509,7 @@
     .person-drawer{
         .el-drawer__body{
             overflow-y: auto;
-            background:#FFF;
+            background: linear-gradient(to top, #292E49, #536976);
         }/*
         .el-drawer__body::-webkit-scrollbar {!*滚动条整体样式*!
 
@@ -590,14 +543,14 @@
                 }
             }
             .person-name,.person-synopsis{
-                color: rgb(230,30,20);
+                color: #FFF;
                 margin-top: 24px;
                 font-size:32px;
                 >span{
                     margin-bottom: 8px;
                     display: block;
                     font-size: 18px;
-                    color: rgba(230,30,20,0.6);
+                    color: #dbdbdb;
                 }
 
             }
