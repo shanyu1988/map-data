@@ -60,7 +60,11 @@
                             <div class="img-box">
                                 <img :src="imgUrl+item.PicPath">
                             </div>
-                            <h4 class="person-name">{{item.Name}}</h4>
+                            <div class="text-box">
+                                <h4 class="person-name">{{item.Name}}</h4>
+                                <!--                            v-html="item.ChengNuo"-->
+                                <p class="person-cheng-nuo" v-if="item.ChengNuo">承诺承诺承诺承诺承诺承诺承诺承诺{{item.ChengNuo}}</p>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -82,14 +86,13 @@
                     {{currentPersonInfo.Name}}
                 </p>
                 <div class="person-cheng-nuo" v-if="currentPersonInfo.ChengNuo">
-                    <span>承诺</span>
+                    <span>服务承诺</span>
                     <div v-html="currentPersonInfo.ChengNuo"></div>
                 </div>
                 <div class="person-synopsis">
                     <span>简介</span>
                     <div v-html="currentPersonInfo.JianJie"></div>
                 </div>
-
             </div>
         </el-drawer>
 
@@ -471,7 +474,7 @@
                 border-radius:8px;
                 cursor: pointer;
                 width: 200px;
-                height: 280px;
+                height: 320px;
                 background-color: #cf3317;
                 padding: 6px 6px 0 6px;
                 .img-box{
@@ -498,7 +501,19 @@
                     margin-top: 8px;
                     color:#FFF;
                 }
-
+                .person-cheng-nuo{
+                    line-height: 20px;
+                    font-size: 14px;
+                    height: 40px;
+                    color: #FFF;
+                    overflow: hidden;
+                }
+                .text-box{
+                    height: 76px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
             }
 
 
@@ -573,6 +588,7 @@
                     height: 100%;
                 }
             }
+
             .person-name,.person-synopsis{
                 color: rgb(230,30,20);
                 margin-top: 24px;
@@ -593,6 +609,7 @@
             }
             .person-cheng-nuo{
                 margin-bottom: 16px;
+
                 >div{
                     font-size: 20px;
                     color: #e61e14;
