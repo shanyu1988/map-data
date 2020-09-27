@@ -31,7 +31,8 @@
                   stroke-linecap="round"
                   stroke-linejoin="miter"
                   :fill="fillHandler(town.id)"/>
-            <text class="map-text" id="MapHeiLin" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
+            <text class="map-text" id="MapHeiLin"
+                  @click="mapTitleClickHandler('MapHeiLin',$event)" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
                   :font-size="fontSize2" x="239.5px" y="240">
                 <tspan dy="-58px">
                     <tspan fill="#0E172B">黑</tspan>
@@ -40,7 +41,9 @@
                     <tspan x="239.5px" :dy="fontSize">队</tspan>
                 </tspan>
             </text>
-            <text class="map-text" id="MapHeiLin" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
+            <text class="map-text"
+                  @click="mapTitleClickHandler('MapLiZhuang',$event)"
+                  id="MapLiZhuang" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
                   :font-size="fontSize2" x="382.5px" y="278.5px">
                 <tspan dy="-58px">
                     <tspan fill="#0E172B">厉</tspan>
@@ -49,7 +52,9 @@
                     <tspan x="382.5px" :dy="fontSize">队</tspan>
                 </tspan>
             </text>
-            <text  class="map-text" id="MapJinShan" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
+            <text  class="map-text"
+                   @click="mapTitleClickHandler('MapJinShan',$event)"
+                   id="MapJinShan" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
                    :font-size="fontSize2" x="482.5px" y="276.5px">
                 <tspan dy="-58px">
                     <tspan>金</tspan>
@@ -58,7 +63,9 @@
                     <tspan x="482.5px" :dy="fontSize">队</tspan>
                 </tspan>
             </text>
-            <text  class="map-text" id="MapShiQiao" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
+            <text  class="map-text"
+                   @click="mapTitleClickHandler('MapShiQiao',$event)"
+                   id="MapShiQiao" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
                   :font-size="fontSize2" x="605.5px" y="218.5px">
                 <tspan dy="-58px">
                     <tspan >石</tspan>
@@ -67,7 +74,8 @@
                     <tspan x="605.5px" :dy="fontSize">队</tspan>
                 </tspan>
             </text>
-            <text  class="map-text" id="MapZheWang" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
+            <text @click="mapTitleClickHandler('MapZheWang',$event)"
+                    class="map-text" id="MapZheWang" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
                   :font-size="fontSize2" x="696.5px" y="124.5px">
                 <tspan dy="-58px">
                     <tspan >柘</tspan>
@@ -76,7 +84,7 @@
                     <tspan x="696.5px" :dy="fontSize">队</tspan>
                 </tspan>
             </text>
-            <text  class="map-text" id="MapHaiTou" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
+            <text  @click="mapTitleClickHandler('MapHaiTou',$event)" class="map-text" id="MapHaiTou" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
                   :font-size="fontSize2" x="609.5px" y="381.5px">
                 <tspan dy="-58px">
                     <tspan>海</tspan>
@@ -85,7 +93,7 @@
                     <tspan x="609.5px" :dy="fontSize">队</tspan>
                 </tspan>
             </text>
-            <text  class="map-text" id="MapGanMa" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
+            <text  @click="mapTitleClickHandler('MapGanMa',$event)" class="map-text" id="MapGanMa" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
                   :font-size="fontSize2" x="497.5px" y="456.5px">
                 <tspan dy="-58px">
                     <tspan>赣</tspan>
@@ -94,7 +102,7 @@
                     <tspan x="497.5px" :dy="fontSize">队</tspan>
                 </tspan>
             </text>
-            <text  class="map-text" id="MapTaShan" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
+            <text  @click="mapTitleClickHandler('MapTaShan',$event)" class="map-text" id="MapTaShan" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
                   :font-size="fontSize2" x="314.5px" y="406px">
                 <tspan dy="-58px">
                     <tspan>塔</tspan>
@@ -103,7 +111,7 @@
                     <tspan x="314.5px" :dy="fontSize">队</tspan>
                 </tspan>
             </text>
-            <text  class="map-text" id="MapChengTou" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
+            <text  @click="mapTitleClickHandler('MapChengTou',$event)" class="map-text" id="MapChengTou" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
                   :font-size="fontSize2" x="262.5px" y="555.5px">
                 <tspan dy="-58px">
                     <tspan>城</tspan>
@@ -112,7 +120,7 @@
                     <tspan x="262.5px" :dy="fontSize">队</tspan>
                 </tspan>
             </text>
-            <text  class="map-text" id="MapChengXi" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
+            <text  @click="mapTitleClickHandler('MapChengXi',$event)" class="map-text" id="MapChengXi" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
                   :font-size="fontSize2" x="416.5px" y="570px">
                 <tspan dy="-58px">
                     <tspan>城</tspan>
@@ -121,7 +129,7 @@
                     <tspan x="416.5px" :dy="fontSize">队</tspan>
                 </tspan>
             </text>
-            <text  class="map-text" id="MapChengJiao" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
+            <text  @click="mapTitleClickHandler('MapChengJiao',$event)" class="map-text" id="MapChengJiao" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
                   :font-size="fontSize2" x="498.5px" y="636px">
                 <tspan dy="-58px">
                     <tspan>城</tspan>
@@ -130,7 +138,7 @@
                     <tspan x="498.5px" :dy="fontSize">队</tspan>
                 </tspan>
             </text>
-            <text  class="map-text" id="MapSongZhuang" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
+            <text  @click="mapTitleClickHandler('MapSongZhuang',$event)" class="map-text" id="MapSongZhuang" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
                   :font-size="fontSize2" x="571.5px" y="680px">
                 <tspan dy="-58px">
                     <tspan>宋</tspan>
@@ -139,7 +147,7 @@
                     <tspan x="571.5px" :dy="fontSize">队</tspan>
                 </tspan>
             </text>
-            <text  class="map-text" id="MapDunShang" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
+            <text  @click="mapTitleClickHandler('MapDunShang',$event)" class="map-text" id="MapDunShang" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
                   :font-size="fontSize2" x="500.5px" y="800px">
                 <tspan dy="-58px">
                     <tspan>墩</tspan>
@@ -148,7 +156,7 @@
                     <tspan x="500.5px" :dy="fontSize">队</tspan>
                 </tspan>
             </text>
-            <text  class="map-text" id="MapShaHe" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
+            <text  @click="mapTitleClickHandler('MapShaHe',$event)" class="map-text" id="MapShaHe" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
                   :font-size="fontSize2" x="307.5px" y="740px">
                 <tspan dy="-58px">
                     <tspan>沙</tspan>
@@ -157,7 +165,7 @@
                     <tspan x="307.5px" :dy="fontSize">队</tspan>
                 </tspan>
             </text>
-            <text  class="map-text" id="MapBanZhuang" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
+            <text  @click="mapTitleClickHandler('MapBanZhuang',$event)" class="map-text" id="MapBanZhuang" kerning="auto" font-family="Microsoft YaHei" fill="rgb(0, 0, 0)"
                   :font-size="fontSize2" x="125.5px" y="537.5px">
                 <tspan dy="-58px">
                     <tspan>班</tspan>
@@ -245,6 +253,16 @@
                 this.$emit("mapClick", {
                     id: town.id,
                     name: town.name
+                });
+                e.stopPropagation();
+            },
+            mapTitleClickHandler(id,e) {
+                let arr = this.towns.filter((item)=>{
+                    return item.id === id
+                });
+                this.$emit("mapClick", {
+                    id: arr[0].id,
+                    name: arr[0].name
                 });
                 e.stopPropagation();
             },

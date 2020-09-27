@@ -61,9 +61,9 @@
                                 <img :src="imgUrl+item.PicPath">
                             </div>
                             <div class="text-box">
-                                <h4 class="person-name">{{item.Name}}</h4>
+                                <h4 class="person-name" :style="getPersonNameHeight(item)">{{item.Name}}</h4>
                                 <!--                            v-html="item.ChengNuo"-->
-                                <p class="person-cheng-nuo" v-if="item.ChengNuo">承诺承诺承诺承诺承诺承诺承诺承诺{{item.ChengNuo}}</p>
+                                <p class="person-cheng-nuo" v-if="item.ChengNuo"> {{item.ChengNuo}}</p>
                             </div>
                         </li>
                     </ul>
@@ -137,7 +137,24 @@
                 main: this
             }
         },
+        computed:{
+
+        },
         methods: {
+            getPersonNameHeight(item){
+                if(item.ChengNuo){
+                    return {
+                        height:"32px",
+                        lineHeight:"32px"
+                    }
+                }else{
+                    return {
+                        height:"76px",
+                        lineHeight:"76px"
+                    }
+                }
+
+            },
             bodyClickHandler(e){
                 this.$refs.ganYu.currentTown = "ShouYe"
                 this.loading = true;
@@ -510,9 +527,7 @@
                 }
                 .text-box{
                     height: 76px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
+
                 }
             }
 

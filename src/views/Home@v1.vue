@@ -427,7 +427,7 @@
         }
 
         .person-info {
-            width: 700;
+            width: 700px;
             margin: 0 auto;
             overflow: hidden;
             display: flex;
