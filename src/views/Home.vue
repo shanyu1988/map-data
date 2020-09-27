@@ -81,10 +81,15 @@
                     <span>姓名</span>
                     {{currentPersonInfo.Name}}
                 </p>
+                <div class="person-cheng-nuo" v-if="currentPersonInfo.ChengNuo">
+                    <span>承诺</span>
+                    <div v-html="currentPersonInfo.ChengNuo"></div>
+                </div>
                 <div class="person-synopsis">
                     <span>简介</span>
                     <div v-html="currentPersonInfo.JianJie"></div>
                 </div>
+
             </div>
         </el-drawer>
 
@@ -493,6 +498,7 @@
                     margin-top: 8px;
                     color:#FFF;
                 }
+
             }
 
 
@@ -571,6 +577,7 @@
                 color: rgb(230,30,20);
                 margin-top: 24px;
                 font-size:32px;
+                margin-bottom: 16px;
                 >span{
                     margin-bottom: 8px;
                     display: block;
@@ -582,6 +589,19 @@
             .person-synopsis{
                 >div{
                     font-size: 16px;
+                }
+            }
+            .person-cheng-nuo{
+                margin-bottom: 16px;
+                >div{
+                    font-size: 20px;
+                    color: #e61e14;
+                }
+                >span{
+                    margin-bottom: 8px;
+                    display: block;
+                    font-size: 18px;
+                    color: rgba(230,30,20,0.6);
                 }
             }
         }
