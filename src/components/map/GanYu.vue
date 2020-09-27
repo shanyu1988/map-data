@@ -24,7 +24,7 @@
                   @mouseenter="mapMouseenter(town,$event)"
                   @mouseleave="mapMouseleave(town,$event)"
                   ref="town"
-                  @click="mapClickHandler(town)"
+                  @click="mapClickHandler(town,$event)"
                   fill-rule="evenodd"
                   stroke="rgb(162, 31, 37)"
                   stroke-width="1px"
@@ -234,15 +234,19 @@
 
         },
         methods: {
+            contentBoxClickHandler(e){
+                e.stopPropagation();
+            },
             fillHandler(id) {
                 return this.currentTown === id ? this.colors.active : this.colors.default
             },
-            mapClickHandler(town) {
+            mapClickHandler(town,e) {
                 this.currentTown = town.id;
                 this.$emit("mapClick", {
                     id: town.id,
                     name: town.name
                 });
+                e.stopPropagation();
             },
             mapMouseenter(town, e) {
                 //console.log()

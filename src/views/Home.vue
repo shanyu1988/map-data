@@ -1,15 +1,14 @@
 <template>
-    <div class="main" @click="bodyClickHandler">
-
+    <div class="main" @click="bodyClickHandler($event)" v-loading="loading">
         <div class="tips">点击地图<br>查看更多信息</div>
-        <div v-if="!isMobile" class="full-screen" @click="fullScreenHandler">{{screenType?"退出全屏":"全屏"}}</div>
+        <div v-if="!isMobile" class="full-screen" @click="fullScreenHandler($event)">{{screenType?"退出全屏":"全屏"}}</div>
          <h1 class="title"></h1>
          <div class="map-box" ref="mapBox" id="mapBox">
-           <gan-yu @mapClick="mapClickHandler"></gan-yu>
+           <gan-yu ref="ganYu" @mapClick="mapClickHandler"></gan-yu>
          </div>
         <div class="content-box"
              element-loading-background="rgba(0, 0, 0, 0.6)"
-             v-loading="loading">
+             @click="contentBoxClickHandler($event)">
             <div class="rolling-box" id="rollingBox">
                 <div class="county-box">
                     <h1 class="box-title">
@@ -18,43 +17,24 @@
                         </p>
 
                     </h1>
-                     <!--<h1 class="box-title">
-                       抗日山共产党员服务队
-                       <template v-if="currentTown.name">
-                         {{currentTown.name}}服务所
-                       </template>
-                     </h1>-->
-<!--                     <div class="content-title">-->
-<!--                       <div class="text" style="width: 260px">简介</div>-->
-<!--                       <div class="decorate"></div>-->
-<!--                     </div>-->
+
                     <div class="item-title">
                         简介
                     </div>
                      <p class="content-text" v-html="townInfo.JianJie">
                      </p>
-<!--                     <div class="content-title" v-if="townInfo.PicPath">-->
-<!--                       <div class="text" style="width: 260px">服务队合影</div>-->
-<!--                       <div class="decorate"></div>-->
-<!--                     </div>-->
                     <div class="item-title">
-                        服务队合影
+                        {{currentTown.id=="ShouYe"?"组织架构图":"服务队合影"}}
                     </div>
                      <div class="group-photo" v-if="townInfo.PicPath">
                        <div class="img-box" >
-<!--                           @click="imgClickHandler(imgUrl+townInfo.PicPath,[])"-->
                            <el-image
                                    style="width: 100%; height:100%"
                                    :src="imgUrl+townInfo.PicPath"
                                    :preview-src-list="groupUrlList">
                            </el-image>
-<!--                         <img :src="imgUrl+townInfo.PicPath">-->
                        </div>
                      </div>
-<!--                     <div class="content-title" v-if="huoDong&&huoDong.length>0">-->
-<!--                       <div class="text" style=" width: 260px">服务活动展示</div>-->
-<!--                       <div class="decorate"></div>-->
-<!--                     </div>-->
                     <div class="item-title" v-if="huoDong&&huoDong.length>0">
                         特色服务展示
                     </div>
@@ -72,11 +52,6 @@
                          </div>
                        </li>
                      </ul>
-<!--                    <div class="content-title" v-if="person&&person.length>0">-->
-<!--                        <div class="text" style="width: 360px">抗日山共产党员服务队</div>-->
-<!--&lt;!&ndash;                        <div class="text" style="width: 360px">标题</div>&ndash;&gt;-->
-<!--                        <div class="decorate"></div>-->
-<!--                    </div>-->
                     <div class="item-title" v-if="person&&person.length>0">
                         服务队队员信息
                     </div>
@@ -91,10 +66,9 @@
                 </div>
                 <div class="township-box" v-if="false"></div>
             </div>
-
         </div>
         <el-drawer append-to-body
-                   custom-class="person-drawer"
+                   custom-class="person-drawer-1"
                    :visible.sync="drawer"
                    direction="rtl"
                    :with-header="false">
@@ -113,12 +87,7 @@
                 </div>
             </div>
         </el-drawer>
-        <el-dialog :visible.sync="showImg"
-                   width="70%"
-                   custom-class="img-dialog"
-                   :show-close="false">
 
-        </el-dialog>
     </div>
 </template>
 
@@ -139,8 +108,8 @@
                 mapBoxHeight: null,
                 mapBoxWidth: null,
                 currentTown: {
-                    name: '青口',
-                    id: "MapQingKou"
+                    name: '首页',
+                    id: "ShouYe"
                 },
                 imgUrl:config.requestUrl+"Upload/",
                 imgUrl2:config.requestUrl,
@@ -161,13 +130,22 @@
             }
         },
         methods: {
-            bodyClickHandler(){
-
+            bodyClickHandler(e){
+                this.$refs.ganYu.currentTown = "ShouYe"
+                this.loading = true;
+                this.currentTown = {
+                    id:'ShouYe',
+                    name:"首页"
+                };
+                document.getElementById('rollingBox').scrollTop = 0;
+                this.reqTownInfo()
+                return false;
+            },
+            contentBoxClickHandler(e){
+                e.stopPropagation();
             },
             imgClickHandler(imgUrl,urlList){
                 this.showImg=true;
-                console.log('----',imgUrl)
-                console.log('----',urlList)
                 this.currentImgUrl = imgUrl;
 
 
@@ -216,7 +194,7 @@
                     }
                     this.screenType = true;
                 }
-
+                e.stopPropagation();
             },
             getMapBoxHeight() {
                 return document.getElementById("mapBox").offsetHeight;
@@ -228,14 +206,14 @@
                 this.loading = true;
                 this.currentTown = town;
                 document.getElementById('rollingBox').scrollTop = 0;
-                this.reqTownInfo(town.name)
+                this.reqTownInfo()
             },
             reqTownInfo(){
                 this.$http({
                     method:"post",
                     url:this.$http.adornUrl("/api/RenYuanList"),
                     data:{
-                        quyu:this.currentTown.name+"镇"
+                        quyu:this.currentTown.name==="首页"?this.currentTown.name:this.currentTown.name+"镇"
                     }
                 }).then(({data})=>{
                     console.log(data)
@@ -357,8 +335,8 @@
         }
         .title {
             position: absolute;
-            top: 3%;
-            left: 3.75%;
+            top: 2%;
+            left: 2%;
             width: 36.87%;
             height: 10.46%;
             background-repeat: no-repeat;
@@ -370,15 +348,15 @@
 
         .map-box {
             position: absolute;
-            top: 16%;
+            top: 5%;
             left: 7%;
-            width: 43.23%;
-            height: 78.33%;
+            width:50%;
+            height: 90%;
         }
 
         .content-box {
             position: absolute;
-            right: 5%;
+            right: 2%;
             width: 37.5%;
             top: 5.56%;
             height: 88.88%;
@@ -553,7 +531,7 @@
 </style>
 
 <style lang="scss">
-    .person-drawer{
+    .person-drawer-1{
         .el-drawer__body{
             overflow-y: auto;
             background:#FFF;
