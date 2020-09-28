@@ -61,9 +61,22 @@
                                 <img :src="imgUrl+item.PicPath">
                             </div>
                             <div class="text-box">
-                                <h4 class="person-name" :style="getPersonNameHeight(item)">{{item.Name}}</h4>
+                                <h4 class="person-name" :style="getPersonNameHeight(item)">
+                                    {{item.Name}}
+                                </h4>
+                                <div class="person-cheng-nuo" v-if="item.ChengNuo">
+                                    服务承诺：{{item.ChengNuo}}
+                                </div>
                                 <!--                            v-html="item.ChengNuo"-->
-                                <p class="person-cheng-nuo" v-if="item.ChengNuo"> {{item.ChengNuo}}</p>
+<!--                                <div class="person-cheng-nuo" v-if="item.ChengNuo">-->
+<!--                                    <div class="header">-->
+<!--                                        服务承诺：-->
+<!--                                    </div>-->
+<!--                                    <div class="content">-->
+<!--                                        {{item.ChengNuo}}-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
                             </div>
                         </li>
                     </ul>
@@ -241,8 +254,8 @@
                         quyu:this.currentTown.name==="首页"?this.currentTown.name:this.currentTown.name+"镇"
                     }
                 }).then(({data})=>{
-                    console.log(data)
                     this.person = data.Rens;
+                    //this.personSort();
                     this.townInfo = data.zhen;
                     this.huoDong = data.HuoDongPicS;
                     this.loading = false;
@@ -260,11 +273,30 @@
                         })
                     }
 
-                }).catch(()=>{
+                }).catch((e)=>{
+
                     this.$message.error("请求数据发生错误，请重新尝试！");
                 })
-            }
+            },
+            personSort(){
+                // ChengNuo: "春蚕到死丝方尽蜡炬成灰泪始干"
+                // File_Name: "董淑军1.jpg"
+                // JianJie: ""
+                // Name: "董淑军1"
+                // PicPath: "d6786918ba774ac591fb5ba147ac06bc.jpg"
+                // Sort: 1
+                for(let i=0;i<this.person.length-1;i++){
+                    for(let j =0;j<this.person.length-i-1;j++){
+                        if(this.person[j].Sort>this.person[j+1].Sort){
+                            let swap = this.person[j];
+                            this.person[j] = this.person[j+1];
+                            this.person[j+1] = swap
+                        }
+                    }
+                }
+            },
         },
+
         mounted() {
             this.isMobile = this.whetherIsMobile()
             this.mapBoxHeight = this.getMapBoxHeight();
@@ -524,6 +556,19 @@
                     height: 40px;
                     color: #FFF;
                     overflow: hidden;
+                    >.header{
+                        float: left;
+                        height: 20px;
+                        line-height: 20px;
+                    }
+                    >.content{
+                        float:right;
+                        line-height: 20px;
+                        height: 40px;
+                        overflow: hidden;
+                        width: calc(100% - 70px);
+                        text-align: left;
+                    }
                 }
                 .text-box{
                     height: 76px;
