@@ -57,25 +57,46 @@
                     </div>
                     <ul class="person-info" v-if="person&&person.length>0">
                         <li v-for="(item ,index) in person" :key="'person'+index" @click="personClickHandler(item,index)">
+<!--                            @click="personClickHandler(item,index)"-->
                             <div class="img-box">
                                 <img :src="imgUrl+item.PicPath">
                             </div>
                             <div class="text-box">
-                                <h4 class="person-name" :style="getPersonNameHeight(item)">
-                                    {{item.Name}}
-                                </h4>
-                                <div class="person-cheng-nuo" v-if="item.ChengNuo">
-                                    服务承诺：{{item.ChengNuo}}
+<!--                                <p class="person-name" :style="getPersonNameHeight(item)">-->
+<!--                                    {{item.Name}}-->
+<!--                                </p>-->
+<!--                                <p class="person-cheng-nuo" v-if="item.ChengNuo">-->
+<!--                                    服务承诺：{{item.ChengNuo}}-->
+<!--                                </p>-->
+<!--                                <p class="person-jian-jie">-->
+<!--                                    简介：{{item.JianJie}}-->
+<!--                                </p>-->
+<!--                                                            v-html="item.ChengNuo"-->
+                                <div class="person-dui-yuan" v-if="item.ChengNuo">
+                                    <div class="title">
+                                        姓名
+                                    </div>
+                                    <div class="content name">
+                                        {{item.Name}}
+                                    </div>
                                 </div>
-                                <!--                            v-html="item.ChengNuo"-->
-<!--                                <div class="person-cheng-nuo" v-if="item.ChengNuo">-->
-<!--                                    <div class="header">-->
-<!--                                        服务承诺：-->
-<!--                                    </div>-->
-<!--                                    <div class="content">-->
-<!--                                        {{item.ChengNuo}}-->
-<!--                                    </div>-->
-<!--                                </div>-->
+                                <div class="person-dui-yuan" v-if="item.ChengNuo">
+                                    <div class="title">
+                                        服务承诺
+                                    </div>
+                                    <div class="content info">
+                                        {{item.ChengNuo}}
+                                    </div>
+                                </div>
+                                <div class="person-dui-yuan" v-if="item.ChengNuo">
+                                    <div class="title">
+                                        简介
+                                    </div>
+                                    <div class="content info">
+                                        {{item.JianJie}}
+                                    </div>
+                                </div>
+
 
                             </div>
                         </li>
@@ -84,7 +105,7 @@
                 <div class="township-box" v-if="false"></div>
             </div>
         </div>
-        <el-drawer append-to-body
+        <!--<el-drawer append-to-body
                    custom-class="person-drawer-1"
                    :visible.sync="drawer"
                    direction="rtl"
@@ -107,7 +128,7 @@
                     <div v-html="currentPersonInfo.JianJie"></div>
                 </div>
             </div>
-        </el-drawer>
+        </el-drawer>-->
 
     </div>
 </template>
@@ -198,8 +219,8 @@
             },
             personClickHandler(personInfo){
                 console.log(personInfo)
-                this.currentPersonInfo = personInfo;
-                this.drawer = true;
+                // this.currentPersonInfo = personInfo;
+                // this.drawer = true;
             },
             fullScreenHandler(){
                 let docElm = document.documentElement;
@@ -390,7 +411,7 @@
             border-radius: 4px;
             position: absolute;
         }
-        .title {
+        >.title {
             position: absolute;
             top: 2%;
             left: 2%;
@@ -523,7 +544,7 @@
                 border-radius:8px;
                 cursor: pointer;
                 width: 200px;
-                height: 320px;
+                height: 364px;
                 background-color: #cf3317;
                 padding: 6px 6px 0 6px;
                 .img-box{
@@ -550,29 +571,51 @@
                     margin-top: 8px;
                     color:#FFF;
                 }
-                .person-cheng-nuo{
+                .person-dui-yuan{
+                    line-height: 1.5;
+                    font-size: 14px;
+                    color: #FFF;
+                    margin-bottom: 6px;
+                    overflow: hidden;
+                    >.content.info{}
+                    >.content.name{
+                        font-weight: bold;
+                    }
+                    >.title{
+                        font-size: 14px;
+                        text-align-last:justify;
+                        text-align:justify;
+                        text-justify:distribute-all-lines; // 这行必加，bai兼容ie浏览器
+                        float: left;
+                        width: 72px;
+                        padding-right: 16px;
+                        line-height: 1.5;
+                        color:rgba(255,255,255,0.7)
+                    }
+                    >.content{
+                        font-size: 14px;
+                        float:right;
+                        line-height: 1.5;
+                        max-height: 42px;
+                        width: calc(100% - 72px);
+                        text-align: left;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 2;
+                        -webkit-box-orient: vertical;
+                    }
+                }
+                .person-jian-jie{
                     line-height: 20px;
                     font-size: 14px;
                     height: 40px;
                     color: #FFF;
                     overflow: hidden;
-                    >.header{
-                        float: left;
-                        height: 20px;
-                        line-height: 20px;
-                    }
-                    >.content{
-                        float:right;
-                        line-height: 20px;
-                        height: 40px;
-                        overflow: hidden;
-                        width: calc(100% - 70px);
-                        text-align: left;
-                    }
                 }
                 .text-box{
-                    height: 76px;
-
+                    height: 124px;
+                    padding-top: 8px;
                 }
             }
 
@@ -611,77 +654,3 @@
     ::v-deep :focus{outline:0;}
 </style>
 
-<style lang="scss">
-    .person-drawer-1{
-        .el-drawer__body{
-            overflow-y: auto;
-            background:#FFF;
-        }/*
-        .el-drawer__body::-webkit-scrollbar {!*滚动条整体样式*!
-
-            width: 10px;     !*高宽分别对应横竖滚动条的尺寸*!
-
-            height: 1px;
-
-        }
-        .el-drawer__body::-webkit-scrollbar-thumb {
-            !*滚动条里面小方块*!
-            border-radius: 10px;
-            box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
-            background   : #535353;
-        }
-        .el-drawer__body::-webkit-scrollbar-track {
-            !*滚动条里面轨道*!
-            box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            background   : #ededed;
-        }*/
-        .person-info-box{
-            padding: 24px;
-            .person-photo{
-                width: 200px;
-                height: 280px;
-                border-radius: 12px;
-                overflow: hidden;
-                >img{
-                    width: 100%;
-                    height: 100%;
-                }
-            }
-
-            .person-name,.person-synopsis{
-                color: rgb(230,30,20);
-                margin-top: 24px;
-                font-size:32px;
-                margin-bottom: 16px;
-                >span{
-                    margin-bottom: 8px;
-                    display: block;
-                    font-size: 18px;
-                    color: rgba(230,30,20,0.6);
-                }
-
-            }
-            .person-synopsis{
-                >div{
-                    font-size: 16px;
-                }
-            }
-            .person-cheng-nuo{
-                margin-bottom: 16px;
-
-                >div{
-                    font-size: 20px;
-                    color: #e61e14;
-                }
-                >span{
-                    margin-bottom: 8px;
-                    display: block;
-                    font-size: 18px;
-                    color: rgba(230,30,20,0.6);
-                }
-            }
-        }
-    }
-
-</style>
