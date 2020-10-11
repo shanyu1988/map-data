@@ -17,26 +17,28 @@
                         </p>
 
                     </h1>
-
                     <div class="item-title">
                         简介
                     </div>
-                     <p class="content-text" v-html="townInfo.JianJie">
-                     </p>
-                    <div class="item-title">
-                        {{currentTown.id=="ShouYe"?"组织架构图":"服务队合影"}}
+                     <p class="content-text" v-html="townInfo.JianJie"></p>
+<!--                    服务队合影-->
+                    <div class="item-title" v-if="fuWuDui&&fuWuDui.length>0">
+                        {{townInfo.Name2?townInfo.Name2:"暂无标题"}}
                     </div>
-                     <div class="group-photo" v-if="townInfo.PicPath">
-                       <div class="img-box" >
-                           <el-image
-                                   style="width: 100%; height:100%"
-                                   :src="imgUrl+townInfo.PicPath"
-                                   :preview-src-list="groupUrlList">
-                           </el-image>
-                       </div>
-                     </div>
+                    <div class="fu-wu-dui-box" v-if="fuWuDui&&fuWuDui.length>0">
+                        <div class="group-photo" v-for="item in fuWuDui">
+                            <div class="img-box">
+                                <el-image
+                                        style="width: 100%; height:100%"
+                                        :src="imgUrl2+item.PicPath"
+                                        :preview-src-list="fuWuDuiUrlList">
+                                </el-image>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="item-title" v-if="huoDong&&huoDong.length>0">
-                        特色服务展示
+                        {{townInfo.Name3?townInfo.Name3:"暂无标题"}}
                     </div>
                      <ul class="activity-photo" v-if="huoDong&&huoDong.length>0">
                        <li v-for="(item,index) in huoDong"
@@ -53,7 +55,7 @@
                        </li>
                      </ul>
                     <div class="item-title" v-if="person&&person.length>0">
-                        服务队队员信息
+                        {{townInfo.Name4?townInfo.Name4:"暂无标题"}}
                     </div>
                     <ul class="person-info" v-if="person&&person.length>0">
                         <li v-for="(item ,index) in person" :key="'person'+index" @click="personClickHandler(item,index)">
@@ -153,6 +155,7 @@
                     name: '首页',
                     id: "ShouYe"
                 },
+                fuWuDui:[],
                 imgUrl:config.requestUrl+"Upload/",
                 imgUrl2:config.requestUrl,
                 person:[],
@@ -163,7 +166,8 @@
                 isMobile:false,
                 currentImgUrl:"",
                 groupUrlList:[],
-                huoDongUrlList:[]
+                huoDongUrlList:[],
+                fuWuDuiUrlList:[]
             }
         },
         provide() {
@@ -272,22 +276,31 @@
                     method:"post",
                     url:this.$http.adornUrl("/api/RenYuanList"),
                     data:{
-                        quyu:this.currentTown.name==="首页"?this.currentTown.name:this.currentTown.name+"镇"
+                        quyu:this.currentTown.name==="首页"||this.currentTown.name==="城郊"?this.currentTown.name:this.currentTown.name+"镇"
                     }
                 }).then(({data})=>{
+                    console.log('5678',data)
                     this.person = data.Rens;
                     //this.personSort();
                     this.townInfo = data.zhen;
-                    this.huoDong = data.HuoDongPicS;
+                    this.huoDong = data.PicS_3;
+                    this.fuWuDui = data.PicS_2;
                     this.loading = false;
-                    if(this.townInfo.PicPath){
-                        this.groupUrlList = [
-                            this.imgUrl+this.townInfo.PicPath
-                        ]
-                    }else{
-                        this.groupUrlList = []
-                    }
+                    // if(this.townInfo.PicPath){
+                    //     this.groupUrlList = [
+                    //         this.imgUrl+this.townInfo.PicPath
+                    //     ]
+                    // }else{
+                    //     this.groupUrlList = []
+                    // }
+
                     this.huoDongUrlList=[];
+                    this.fuWuDuiUrlList = [];
+                    if(this.fuWuDui.length>0){
+                        this.fuWuDui.forEach((item,index)=>{
+                            this.fuWuDuiUrlList.push(this.imgUrl2+item.PicPath);
+                        })
+                    }
                     if(this.huoDong.length>0){
                         this.huoDong.forEach((item,index)=>{
                             this.huoDongUrlList.push(this.imgUrl2+item.PicPath);
@@ -295,7 +308,7 @@
                     }
 
                 }).catch((e)=>{
-
+                    console.error()
                     this.$message.error("请求数据发生错误，请重新尝试！");
                 })
             },
