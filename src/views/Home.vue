@@ -22,11 +22,21 @@
                     </div>
                      <p class="content-text" v-html="townInfo.JianJie"></p>
 <!--                    服务队合影-->
-                    <div class="item-title" v-if="fuWuDui&&fuWuDui.length>0">
-                        {{townInfo.Name2?townInfo.Name2:"暂无标题"}}
+                    <div class="item-title custom-title" v-if="fuWuDui&&fuWuDui.length>0" >
+<!--                       -->
+                        <p :style="{lineHeight:townInfo.Name2.length>15?'36px':'82px'}">{{townInfo.Name2?townInfo.Name2:"暂无标题"}}</p>
                     </div>
-                    <div class="fu-wu-dui-box" v-if="fuWuDui&&fuWuDui.length>0">
-                        <div class="group-photo" v-for="item in fuWuDui">
+                    <div class="fu-wu-dui-box" v-if="fuWuDui&&fuWuDui.length>0" >
+                        <!--<div class="group-photo" v-for="(item,index) in fuWuDui" :key="'fuWuDui'+index">
+                            <div class="img-box">
+                                <el-image
+                                        style="width: 100%; height:100%"
+                                        :src="imgUrl2+item.PicPath"
+                                        :preview-src-list="fuWuDuiUrlList">
+                                </el-image>
+                            </div>
+                        </div>-->
+                        <div class="fu-wu-dui-photo" v-for="(item,index) in fuWuDui" :key="'fuWuDui'+index">
                             <div class="img-box">
                                 <el-image
                                         style="width: 100%; height:100%"
@@ -37,8 +47,8 @@
                         </div>
                     </div>
 
-                    <div class="item-title" v-if="huoDong&&huoDong.length>0">
-                        {{townInfo.Name3?townInfo.Name3:"暂无标题"}}
+                    <div class="item-title custom-title" v-if="huoDong&&huoDong.length>0">
+                        <p :style="{lineHeight:townInfo.Name3.length>15?'36px':'82px'}">{{townInfo.Name3?townInfo.Name3:"暂无标题"}}</p>
                     </div>
                      <ul class="activity-photo" v-if="huoDong&&huoDong.length>0">
                        <li v-for="(item,index) in huoDong"
@@ -54,8 +64,8 @@
                          </div>
                        </li>
                      </ul>
-                    <div class="item-title" v-if="person&&person.length>0">
-                        {{townInfo.Name4?townInfo.Name4:"暂无标题"}}
+                    <div class="item-title custom-title" v-if="person&&person.length>0">
+                        <p :style="{lineHeight:townInfo.Name3.length>15?'36px':'82px'}">{{townInfo.Name4?townInfo.Name4:"暂无标题"}}</p>
                     </div>
                     <ul class="person-info" v-if="person&&person.length>0">
                         <li v-for="(item ,index) in person" :key="'person'+index" @click="personClickHandler(item,index)">
@@ -405,9 +415,21 @@
                 height: 58px;
                 margin: 0 auto;
                 line-height: 56px;
-                font-size: 28px;
+                font-size: 24px;
                 color: #FFF;
+                background-repeat: no-repeat;
                 background-image: url("~@/assets/img/title_bg.png");
+            }
+            .item-title.custom-title{
+                overflow: hidden;
+                height: 72px;
+                color: #e5150e;
+                background-position: bottom;
+                background-image: url("~@/assets/img/title_bg_01.png");
+                >p{
+                    margin: 0 auto;
+                    width: 360px;
+                }
             }
         }
         .full-screen{
@@ -489,12 +511,32 @@
             text-align: justify;
             padding:20px 24px;
         }
+        .fu-wu-dui-box{
+            width: 654px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-content: stretch;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            .fu-wu-dui-photo{
+                border-radius: 8px;
+                width: 318px;
+                height: 220px;
+                overflow: hidden;
+                margin-bottom: 16px;
+                .img-box{
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
 
         .group-photo {
             margin: 20px auto 20px auto;
-            border-radius: 12px;
-            background-color: #cf3317;
-            width: 654px;
+            border-radius: 8px;
+            background-color: #e61e13;
+
             height: 420px;
             padding: 5px 0 0 5px;
             .img-box {
@@ -521,18 +563,14 @@
             flex-wrap: wrap;
             > li {
                 margin-bottom: 16px;
-                border-radius: 12px;
-                background-color: #cf3317;
+                border-radius: 8px;
                 height: 220px;
                 width: 318px;
                 float: left;
-                padding: 5px;
                 overflow: hidden;
-
                 .img-box {
-                    background-color: #fcfaf2;
-                    height: 210px;
-                    width: 308px;
+                    height: 100%;
+                    width: 100%;
                     border-radius: 8px;
                     overflow: hidden;
                     > img {
@@ -558,7 +596,7 @@
                 cursor: pointer;
                 width: 200px;
                 height: 364px;
-                background-color: #cf3317;
+                background-color: #e61e13;
                 padding: 6px 6px 0 6px;
                 .img-box{
                     width: 188px;
