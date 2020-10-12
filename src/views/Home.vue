@@ -17,8 +17,8 @@
                         </p>
 
                     </h1>
-                    <div class="item-title">
-                        简介
+                    <div class="item-title custom-title" v-if="townInfo.JianJie">
+                        <p :style="{lineHeight:townInfo.Name1&&townInfo.Name1.length>15?'36px':'82px'}">{{townInfo.Name1?townInfo.Name1:"暂无标题"}}</p>
                     </div>
                      <p class="content-text" v-html="townInfo.JianJie"></p>
 <!--                    服务队合影-->
@@ -84,7 +84,8 @@
 <!--                                    简介：{{item.JianJie}}-->
 <!--                                </p>-->
 <!--                                                            v-html="item.ChengNuo"-->
-                                <div class="person-dui-yuan" v-if="item.ChengNuo">
+
+                                <div class="person-dui-yuan">
                                     <div class="title">
                                         姓名
                                     </div>
@@ -92,7 +93,17 @@
                                         {{item.Name}}
                                     </div>
                                 </div>
-                                <div class="person-dui-yuan" v-if="item.ChengNuo">
+
+                                <div class="person-dui-yuan">
+                                    <div class="title">
+                                        岗位
+                                    </div>
+                                    <div class="content info">
+                                        {{item.GangWei}}
+                                    </div>
+                                </div>
+
+                                <div class="person-dui-yuan">
                                     <div class="title">
                                         服务承诺
                                     </div>
@@ -100,7 +111,8 @@
                                         {{item.ChengNuo}}
                                     </div>
                                 </div>
-                                <div class="person-dui-yuan" v-if="item.ChengNuo">
+
+                                <div class="person-dui-yuan">
                                     <div class="title">
                                         简介
                                     </div>
@@ -108,8 +120,6 @@
                                         {{item.JianJie}}
                                     </div>
                                 </div>
-
-
                             </div>
                         </li>
                     </ul>
@@ -117,7 +127,8 @@
                 <div class="township-box" v-if="false"></div>
             </div>
         </div>
-        <!--<el-drawer append-to-body
+        <!--
+        <el-drawer append-to-body
                    custom-class="person-drawer-1"
                    :visible.sync="drawer"
                    direction="rtl"
@@ -140,7 +151,8 @@
                     <div v-html="currentPersonInfo.JianJie"></div>
                 </div>
             </div>
-        </el-drawer>-->
+        </el-drawer>
+        -->
 
     </div>
 </template>
@@ -595,7 +607,7 @@
                 border-radius:8px;
                 cursor: pointer;
                 width: 200px;
-                height: 364px;
+                height: 385px;
                 background-color: #e61e13;
                 padding: 6px 6px 0 6px;
                 .img-box{
@@ -665,7 +677,7 @@
                     overflow: hidden;
                 }
                 .text-box{
-                    height: 124px;
+                    height: 145px;
                     padding-top: 8px;
                 }
             }
