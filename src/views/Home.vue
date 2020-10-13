@@ -111,15 +111,14 @@
                                         {{item.ChengNuo}}
                                     </div>
                                 </div>
-
-                                <div class="person-dui-yuan">
+                                <!--<div class="person-dui-yuan">
                                     <div class="title">
                                         简介
                                     </div>
                                     <div class="content info">
                                         {{item.JianJie}}
                                     </div>
-                                </div>
+                                </div>-->
                             </div>
                         </li>
                     </ul>
@@ -607,7 +606,7 @@
                 border-radius:8px;
                 cursor: pointer;
                 width: 200px;
-                height: 385px;
+                height: 344px;
                 background-color: #e61e13;
                 padding: 6px 6px 0 6px;
                 .img-box{
@@ -677,7 +676,7 @@
                     overflow: hidden;
                 }
                 .text-box{
-                    height: 145px;
+                    height: 104px;
                     padding-top: 8px;
                 }
             }
